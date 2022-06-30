@@ -119,7 +119,67 @@ type TimeRange = {
   start: Date;
 };
 const hasStartString: TimeRange = {
-    start: new Date("2022-06-30")
+  start: new Date("2022-06-30"),
   //start: "2022-06-30",
   // Error: Type 'string' is not assignable to type 'Date'.
 };
+
+// ----------------  Excess Property Checking -----------------
+
+type Poets = {
+  born: number;
+  name: string;
+};
+// Ok: all fields match what's expected in Poet
+const poetMatch: Poets = {
+  born: 1928,
+  name: "Maya Angelou",
+};
+const extraProperty: Poets = {
+  // activity: "walking", // get error
+  born: 1935,
+  name: "Mary Oliver",
+};
+// Error: Type '{ activity: string; born: number; name: string; }'
+
+const existingObject = {
+  activity: "walking",
+  born: 1935,
+  name: "Mary Oliver",
+};
+const extraPropertyButOk: Poets = existingObject; // Ok
+// is not assignable to type 'Poet'.
+// Object literal may only specify known properties,
+// and 'activity' does not exist in type 'Poet'.
+
+// -------------------------------------- Nested Object Types -------------------------
+
+type Poem = {
+  author: {
+    firstName: string;
+    lastName: string;
+  };
+  name: string;
+};
+// Ok
+
+const poemMatch: Poem = {
+  author: {
+    firstName: "Sylvia",
+    lastName: "Plath",
+  },
+  name: "Lady Lazarus",
+};
+
+const poemMismatch: Poem = {
+    author: {
+        firstName:'a',
+        lastName: 'b'
+    // name: "Sylvia Plath",
+    },
+    // Error: Type '{ name: string; }' is not assignable
+    // to type '{ firstName: string; lastName: string; }'.
+    // Object literal may only specify known properties, and 'name'
+    // does not exist in type '{ firstName: string; lastName: string; }'.
+    name: "Tulips",
+    };
