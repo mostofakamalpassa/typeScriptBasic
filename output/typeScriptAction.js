@@ -10,5 +10,9 @@ function sayMyName(fullName) {
     console.log(`Hello Your full name is : ${fullName}`);
 }
 sayMyName("mostofa kamal passa");
-//  below code show error
-// sayMyName(555)
+function paintPainting(printer, printing) {
+    return true;
+}
+// Compiling Syntax
+const artist = "Augusta Savage";
+console.log({ artist });
