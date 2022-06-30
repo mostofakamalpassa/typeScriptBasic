@@ -294,3 +294,16 @@ referring to.
 
 The previous variables’ type annotations could be rewritten to
 use a type alias for the long union type: */
+
+
+type RawData = boolean | number | string | null | undefined;
+let rawDataFirsts: RawData;
+let rawDataSeconds: RawData;
+let rawDataThirds: RawData;
+
+// -------------------------------------- Combining Type Aliases ---------------------
+
+type Id = number | string;
+// Equivalent to: number | string | undefined | null
+type IdMaybe = Id | undefined | null;
+

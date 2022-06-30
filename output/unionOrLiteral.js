@@ -221,9 +221,6 @@ Each of these variables can be one of four possible types: */
 let rawDataFirst;
 let rawDataSecond;
 let rawDataThird;
-/* Type aliases act as a copy-and-paste in the type system. When TypeScript
-sees a type alias, it acts as if you’d typed out the actual type the alias was
-referring to.
-
-The previous variables’ type annotations could be rewritten to
-use a type alias for the long union type: */ 
+let rawDataFirsts;
+let rawDataSeconds;
+let rawDataThirds;
