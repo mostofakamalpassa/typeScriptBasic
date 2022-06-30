@@ -102,3 +102,52 @@ function logWarriors(greeting, ...names) {
 const warriorsS = ["Cathay Williams", "Lozen", "Nzinga"];
 logWarriors("Hello", ...warriorsS);
 const birthYears = [1844, 1840, 1583];
+//======================== Tuples ===============================
+/*
+        Although JavaScript arrays may be any size in theory, it is sometimes useful
+to use an array of a fixed size—also known as a tuple. Tuple arrays have a specific known type at each index that may be more specific than a union
+type of all possible members of the array. The syntax to declare a tuple type looks like an array literal, but with types in place of element values.
+    */
+let yearAndWarrior;
+yearAndWarrior = [530, "Tomyris"]; // Ok
+// yearAndWarrior = [530]; // get Errors
+// Error: Type '[number]' is not assignable to type '[number, string]'.
+// Source has 1 element(s) but target requires 2.
+// year type: number
+// warrior type: string
+let [year, warrior] = Math.random() > 0.5 ? [340, "Archidamia"] : [1828, "Rani of Jhansi"];
+// ============================= Tuple Assignability ===================
+/*
+    Tuple types are treated by TypeScript as more specific than variable length array types. That means variable length array types aren’t assignable to tuple types.
+*/
+// Type: (boolean | number)[]
+const pairLoose = [false, 123];
+const tupleThree = [false, 1583, "Nzinga"];
+const tupleTwoExact = [tupleThree[0], tupleThree[1]];
+// ============================== Tuples as rest parameters ====================
+function logPair(name, value) {
+    console.log(`${name} has ${value}`);
+}
+const pairArray = ["Amage", 1];
+// logPair(...pairArray); // get error
+// Error: A spread argument must either have a
+// tuple type or be passed to a rest parameter
+const pairTupleCorrect = ["Amage", 1];
+logPair(...pairTupleCorrect); // Ok
+function logTrio(name, value) {
+    console.log(`${name} has ${value[0]} (${value[1]}`);
+}
+const trios = [
+    ["Amanitore", [1, true]],
+    ["Æthelflæd", [2, false]],
+    ["Ann E. Dunwoody", [3, false]],
+];
+trios.forEach((trio) => logTrio(...trio)); // Ok
+// ====================== Tuple Inferences ===============
+// Return type: (string | number)[]
+function firstCharAndSize(input) {
+    return [input[0], input.length];
+}
+// firstChar type: string | number
+// size type: string | number
+const [firstChar, size] = firstCharAndSize("Gudit");
