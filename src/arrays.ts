@@ -59,3 +59,27 @@ let values = [];
 values.push("");
 // Type: (number | string)[]
 values[0] = 0;
+
+//======================== Multidimensional Arrays ===================
+let arrayOfArraysOfNumbers: number[][];
+arrayOfArraysOfNumbers = [
+    [1, 2, 3],
+    [2, 4, 6],
+    [3, 6, 9],
+    ];
+
+let arrayOfThreeDymentional: number[][][];
+
+arrayOfThreeDymentional = [
+    [
+        [
+            22,444,55,66,77,3
+        ],
+        [
+            22,444,55,66,77,3
+        ],
+        [
+            22,444,55,66,77,3
+        ],
+    ]
+]
