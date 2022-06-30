@@ -59,24 +59,143 @@ The singer parameter in this announceSongBy function must be provided
 explicitly. It may be a string value or undefined:
     */
 
-
-function announceSongBy(song: string, singer: string | undefined) { /* ... */
+function announceSongBy(song: string, singer: string | undefined) {
+  /* ... */
 }
 // announceSongBy("Greensleeves");
 // Error: Expected 2 arguments, but got 1.
 announceSongBy("Greensleeves", undefined); // Ok
 announceSongBy("Chandelier", "Sia"); // Ok
 
-
-// ======================= Default Parameters =================== 
+// ======================= Default Parameters ===================
 
 function rateSong(song: string, rating = 0) {
-    console.log(`${song} gets ${rating}/5 stars!`);
+  console.log(`${song} gets ${rating}/5 stars!`);
+}
+rateSong("Photograph"); // Ok
+rateSong("Set Fire to the Rain", 5); // Ok
+rateSong("Set Fire to the Rain", undefined); // Ok
+// rateSong("At Last!", "100"); // get Error
+// Error: Argument of type '"100"' is not assignable
+// to parameter of type 'number | undefined'.
+
+// ======================= Rest Parameters ====================
+
+/* 
+    Some functions in JavaScript are made to be called with any number of arguments.
+ The ... spread operator may be placed on the last parameter in
+a function declaration to indicate any “rest” arguments passed to the
+function starting at that parameter should all be stored in a single array.
+
+TypeScript allows declaring the types of these rest parameters similarly to
+regular parameters, except with a [] syntax added at the end to indicate it’s
+an array of arguments.
+Here, singAllTheSongs is allowed to take zero or more arguments of type
+string for its songs rest parameter:
+    
+    */
+
+function singAllTheSongs(singer: string, ...songs: string[]) {
+  for (const song of songs) {
+    console.log(`${song}, by ${singer}`);
+  }
+}
+singAllTheSongs("Alicia Keys"); // Ok
+singAllTheSongs("Lady Gaga", "Bad Romance", "Just Dance", "Poker Face"); // Ok
+// singAllTheSongs("Ella Fitzgerald", 2000);
+
+// Error: Argument of type 'number' is not
+// assignable to parameter of type 'string'.
+
+//================== Return Types =================
+
+// Type: (songs: string[]) => number
+function singSongs(songs: string[]) {
+  for (const song of songs) {
+    console.log(`${song}`);
+  }
+  return songs.length;
+}
+
+/* 
+    If a function contains multiple return statements with different values,
+TypeScript will infer the return type to be a union of all the possible
+returned types.
+This getSongAt function would be inferred to return string | undefined
+because its two possible returned values are typed string and undefined,
+respectively
+*/
+// Type: (songs: string[], index: number) => string | undefined
+function getSongAt(songs: string[], index: number) {
+  return index < songs.length ? songs[index] : undefined;
+}
+
+//============================== Explicit Return Types =========================
+
+/* You might want to enforce functions with many possible returned values always return the same type of value.
+TypeScript will refuse to try to reason through return types of recursive function.
+It can speed up TypeScript type checking in very large projects—i.e.,
+those with hundreds of TypeScript files or more. */
+
+function singSongsRecursive(songs: string[], count = 0): number {
+  return songs.length ? singSongsRecursive(songs.slice(1), count) : count;
+}
+
+const singSongsRecursives = (songs: string[], count = 0): number => {
+  return songs.length ? singSongsRecursives(songs.slice(1), count) : count;
+};
+
+function getSongRecordingDate(song: string): null | Date {
+  switch (song) {
+    case "Strange Fruit":
+      return new Date("2022-06-3000");
+      break;
+    case "Greensleeves":
+      // return 'unkwon'; // get error
+      return new Date("2022-04-03");
+      break;
+    default:
+      return null;
+
+      break;
+  }
+}
+
+//============================ Function Types =========================
+
+/* 
+    JavaScript allows us to pass functions around as values. That means we
+need a way to declare the type of a parameter or variable meant to hold a function.
+Function type syntax looks similar to an arrow function, but with a type instead of the body.
+This nothingInGivesString variable’s type describes a function with no parameters and a returned string value:
+*/
+
+let nothingInGivesString: () => string;
+/* 
+    This inputAndOutput variable’s type describes a function with a string[]
+    parameter, an optional count parameter, and a returned number value:
+*/
+let inputAndOutput: (songs: string[], count?: number) => number;
+/* Function types are frequently used to describe callback parameters
+(parameters meant to be called as functions). */
+
+const songs = ["Juice", "Shake It Off", "What's Up"];
+function runOnSongs(getSongAt: (index: number) => string) {
+  for (let i = 0; i < songs.length; i += 1) {
+    console.log(getSongAt(i));
+  }
+}
+
+function getSongAtss(index: number) {
+    return `${songs[index]}`;
     }
-    rateSong("Photograph"); // Ok
-    rateSong("Set Fire to the Rain", 5); // Ok
-    rateSong("Set Fire to the Rain", undefined); // Ok
-    // rateSong("At Last!", "100"); // get Error
-    // ~~~~~
-    // Error: Argument of type '"100"' is not assignable
-    // to parameter of type 'number | undefined'.
+    runOnSongs(getSongAtss); // Ok
+    function logSong(song: string) {
+    return `${song}`;
+    }
+    // runOnSongs(logSong); // get Error
+  
+    // Error: Argument of type '(song: string) => string' is not
+    // assignable to parameter of type '(index: number) => string'.
+    // Types of parameters 'song' and 'index' are incompatible.
+    // Type 'number' is not assignable to type 'string'.
