@@ -297,5 +297,33 @@ function saveRecords(newRecords: string[]) {
 }
 saveRecords(["21", "Come On Over", "The Bodyguard"]);
 
-
 // ============================== Never Returns ====================
+function fail(message: string): never {
+  throw new Error(`Invariant failure: ${message}.`);
+}
+function workWithUnsafeParam(param: unknown) {
+  if (typeof param !== "string") {
+    fail(`param should be a string, not ${typeof param}`);
+  }
+  // Here, param is known to be type string
+  param.toUpperCase(); // Ok
+}
+
+/* 
+    never is not the same as void. void is for a function that returns nothing. never is for a function that never returns.
+*/
+
+//============================= Function Overloads ==================================
+
+function createDate(timestamp: number): Date;
+function createDate(month: number, day: number, year: number): Date;
+function createDate(monthOrTimestamp: number, day?: number, year?: number) {
+return day === undefined || year === undefined
+? new Date(monthOrTimestamp)
+: new Date(year, monthOrTimestamp, day);
+}
+createDate(554356800); // Ok
+createDate(7, 27, 1987); // Ok
+// createDate(4, 1); // get Error
+// Error: No overload expects 2 arguments, but overloads
+// do exist that expect either 1 or 3 arguments.

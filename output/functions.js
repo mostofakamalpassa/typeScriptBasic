@@ -239,3 +239,23 @@ function saveRecords(newRecords) {
 }
 saveRecords(["21", "Come On Over", "The Bodyguard"]);
 // ============================== Never Returns ====================
+function fail(message) {
+    throw new Error(`Invariant failure: ${message}.`);
+}
+function workWithUnsafeParam(param) {
+    if (typeof param !== "string") {
+        fail(`param should be a string, not ${typeof param}`);
+    }
+    // Here, param is known to be type string
+    param.toUpperCase(); // Ok
+}
+function createDate(monthOrTimestamp, day, year) {
+    return day === undefined || year === undefined
+        ? new Date(monthOrTimestamp)
+        : new Date(year, monthOrTimestamp, day);
+}
+createDate(554356800); // Ok
+createDate(7, 27, 1987); // Ok
+// createDate(4, 1); // get Error
+// Error: No overload expects 2 arguments, but overloads
+// do exist that expect either 1 or 3 arguments.
