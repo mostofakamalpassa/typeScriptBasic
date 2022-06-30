@@ -206,5 +206,36 @@ songsS.forEach((song, index) => {
 });
 let stringToNumber;
 stringToNumber = (input) => input.length; // Ok
-// stringToNumber = (input) => input.toUpperCase(); // GET ERROR
-// Error: Type 'string' is not assignable to type 'number'. Similarly,
+function usesNumberToString(numberToString) {
+    console.log(`The string is: ${numberToString(1234)}`);
+}
+usesNumberToString((input) => `${input}! Hooray!`); // Ok
+// usesNumberToString((input) => input * 2); // get Error
+// Error: Type 'number' is not assignable to type 'string'.
+//=========================== Void Returns ====================
+function logSongs(song) {
+    if (!song) {
+        return; // Ok
+    }
+    console.log(`${song}`);
+    // return true; // Get Error
+    // Error: Type 'boolean' is not assignable to type 'void'.
+}
+let songLogger;
+songLogger = (song) => {
+    console.log(`${songs}`);
+};
+songLogger("Heart of Glass"); // Ok
+function returnsVoid() {
+    return undefined;
+    //   return // get Error
+}
+let lazyValue;
+lazyValue = returnsVoid();
+// Error: Type 'void' is not assignable to type 'string | undefined'.
+const records = [];
+function saveRecords(newRecords) {
+    newRecords.forEach((record) => records.push(record));
+}
+saveRecords(["21", "Come On Over", "The Bodyguard"]);
+// ============================== Never Returns ====================
