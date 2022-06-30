@@ -154,7 +154,7 @@ const extraPropertyButOk: Poets = existingObject; // Ok
 
 // -------------------------------------- Nested Object Types -------------------------
 
-type Poem = {
+type Poemss = {
   author: {
     firstName: string;
     lastName: string;
@@ -163,7 +163,7 @@ type Poem = {
 };
 // Ok
 
-const poemMatch: Poem = {
+const poemMatch: Poemss = {
   author: {
     firstName: "Sylvia",
     lastName: "Plath",
@@ -171,7 +171,7 @@ const poemMatch: Poem = {
   name: "Lady Lazarus",
 };
 
-const poemMismatch: Poem = {
+const poemMismatch: Poemss = {
   author: {
     firstName: "a",
     lastName: "b",
@@ -215,18 +215,146 @@ as they provide pages:
 */
 
 type Book = {
-    author?: string;
-    pages: number;
-    };
-    // Ok
-    const ok: Book = {
-    author: "Rita Dove",
-    pages: 80,
-    };
+  author?: string;
+  pages: number;
+};
+// Ok
+const ok: Book = {
+  author: "Rita Dove",
+  pages: 80,
+};
 
-    const missing: Book = {
-        pages: 200, // prevent for error  this property is required
-     // author: "Rita Dove",
-    };
-    // Error: Property 'pages' is missing in type
-    // '{ author: string; }' but required in type 'Book'.
+const missing: Book = {
+  pages: 200, // prevent for error  this property is required
+  // author: "Rita Dove",
+};
+// Error: Property 'pages' is missing in type
+// '{ author: string; }' but required in type 'Book'.
+
+type Writers = {
+  author: string | undefined;
+  editor?: string;
+};
+// Ok: author is provided as undefined
+const hasRequired: Writers = {
+  author: undefined,
+};
+
+// const missingRequired: Writers = {};
+
+// Error: Property 'author' is missing in type
+// '{}' but required in type 'Writers'.
+
+// -----------------------------  Unions of Object Types ------------------
+
+// Inferred Object-Type Unions
+
+const poem =
+  Math.random() > 0.5
+    ? { name: "The Double Image", pages: 7 }
+    : { name: "Her Kind", rhymes: true };
+// Type:
+// {
+// name: string;
+// pages: number;
+// rhymes?: undefined;
+// }
+
+// |  UNION
+
+// {
+// name: string;
+// pages?: undefined;
+// rhymes: boolean;
+// }
+poem.name; // string
+poem.pages; // number | undefined
+poem.rhymes; // booleans | undefined
+
+// -------------  Explicit Object-Type Unions ------------------
+
+type PoemWithPages = {
+  name: string;
+  pages: number;
+};
+type PoemWithRhymes = {
+  name: string;
+  rhymes: boolean;
+};
+type Poems = PoemWithPages | PoemWithRhymes;
+const poems: Poems =
+  Math.random() > 0.5
+    ? { name: "The Double Image", pages: 7 }
+    : { name: "Her Kind", rhymes: true };
+poems.name; // Ok
+// poems.pages; // get errors
+
+// Property 'pages' does not exist on type 'Poems'.
+// Property 'pages' does not exist on type 'PoemWithRhymes'.
+// poems.rhymes; // get Errors
+
+// Property 'rhymes' does not exist on type 'Poems'.
+// Property 'rhymes' does not exist on type 'PoemWithPages'.
+
+// ------------------------ Narrowing Object Types ------------------
+
+if ("pages" in poems) {
+  poem.pages; // Ok: poem is narrowed to PoemWithPages
+} else {
+  poem.rhymes; // Ok: poem is narrowed to PoemWithRhymes
+}
+
+// ------------------------------------------- Discriminated Unions --------------------------
+
+/* 
+    Another popular form of union typed objects in JavaScript and TypeScript
+is to have a property on the object indicate what shape the object is. This
+kind of type shape is called a discriminated union, and the property whose
+value indicates the object’s type is a discriminant.
+
+TypeScript is able to
+perform type narrowing for code that type guards on discriminant
+properties.
+
+For example, this Poem type describes an object that can be either a new PoemWithPages type or a new PoemWithRhymes type, and the type
+property indicates which one. If poem.type is "pages", then TypeScript is able to infer that the type of poem must be PoemWithPages.
+
+*/
+
+type PoemWithPagess = {
+  name: string;
+  pages: number;
+  type: "pages";
+};
+type PoemWithRhymess = {
+  name: string;
+  rhymes: boolean;
+  type: "rhymes";
+};
+type Poemsss = PoemWithPagess | PoemWithRhymess;
+const poemsss: Poemsss =
+  Math.random() > 0.5
+    ? { name: "The Double Image", pages: 7, type: "pages" }
+    : { name: "Her Kind", rhymes: true, type: "rhymes" };
+
+if (poemsss.type === "pages") {
+  console.log(`It's got pages: ${poemsss.pages}`); // Ok
+} else {
+  console.log(`It rhymes: ${poemsss.rhymes}`);
+}
+
+//poemsss.type; // Type: 'pages' | 'rhymes'
+
+
+//---------------------------------- Intersection Types ----------------------------
+
+/* 
+    TypeScript’s | union types represent the type of a value that could be one of
+two or more different types. Just as JavaScript’s runtime | operator acts as a
+counterpart to its & operator, TypeScript allows representing a type that is
+multiple types at the same time: an & intersection type. Intersection types
+are typically used with aliased object types to create a new type that
+combines multiple existing object types.
+The following Artwork and Writing types are used to form a combined
+WrittenArt type that has the properties genre, name, and pages:
+*/
