@@ -172,14 +172,61 @@ const poemMatch: Poem = {
 };
 
 const poemMismatch: Poem = {
-    author: {
-        firstName:'a',
-        lastName: 'b'
+  author: {
+    firstName: "a",
+    lastName: "b",
     // name: "Sylvia Plath",
-    },
-    // Error: Type '{ name: string; }' is not assignable
-    // to type '{ firstName: string; lastName: string; }'.
-    // Object literal may only specify known properties, and 'name'
-    // does not exist in type '{ firstName: string; lastName: string; }'.
-    name: "Tulips",
+  },
+  // Error: Type '{ name: string; }' is not assignable
+  // to type '{ firstName: string; lastName: string; }'.
+  // Object literal may only specify known properties, and 'name'
+  // does not exist in type '{ firstName: string; lastName: string; }'.
+  name: "Tulips",
+};
+
+type Author = {
+  firstName: string;
+  lastName: string;
+};
+type Poem = {
+  author: Author;
+  name: string;
+};
+
+// const poemMismatch: Poem = {
+//     author: {
+//     name: "Sylvia Plath",
+//     },
+//     // Error: Type '{ name: string; }' is not assignable to type 'Author'.
+//     // Object literal may only specify known properties,
+//     // and 'name' does not exist in type 'Author'.
+//     name: "Tulips",
+//     };
+
+// -------------------------------   Optional Properties ----------------------
+
+/* 
+    Object type properties don’t all have to be required in the object. You can
+include a ? before the : in a type property’s type annotation to indicate that
+it’s an optional property.
+This Book type requires only a pages property and optionally allows an
+author. Objects adhering to it may provide author or leave it out as long
+as they provide pages:
+*/
+
+type Book = {
+    author?: string;
+    pages: number;
     };
+    // Ok
+    const ok: Book = {
+    author: "Rita Dove",
+    pages: 80,
+    };
+
+    const missing: Book = {
+        pages: 200, // prevent for error  this property is required
+     // author: "Rita Dove",
+    };
+    // Error: Property 'pages' is missing in type
+    // '{ author: string; }' but required in type 'Book'.

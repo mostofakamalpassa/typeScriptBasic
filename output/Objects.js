@@ -85,8 +85,8 @@ const poemMatch = {
 };
 const poemMismatch = {
     author: {
-        firstName: 'a',
-        lastName: 'b'
+        firstName: "a",
+        lastName: "b",
         // name: "Sylvia Plath",
     },
     // Error: Type '{ name: string; }' is not assignable
@@ -95,3 +95,14 @@ const poemMismatch = {
     // does not exist in type '{ firstName: string; lastName: string; }'.
     name: "Tulips",
 };
+// Ok
+const ok = {
+    author: "Rita Dove",
+    pages: 80,
+};
+const missing = {
+    pages: 200, // prevent for error  this property is required
+    // author: "Rita Dove",
+};
+// Error: Property 'pages' is missing in type
+// '{ author: string; }' but required in type 'Book'.
