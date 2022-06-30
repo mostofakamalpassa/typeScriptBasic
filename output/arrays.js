@@ -60,14 +60,45 @@ arrayOfArraysOfNumbers = [
 let arrayOfThreeDymentional;
 arrayOfThreeDymentional = [
     [
-        [
-            22, 444, 55, 66, 77, 3
-        ],
-        [
-            22, 444, 55, 66, 77, 3
-        ],
-        [
-            22, 444, 55, 66, 77, 3
-        ],
-    ]
+        [22, 444, 55, 66, 77, 3],
+        [22, 444, 55, 66, 77, 3],
+        [22, 444, 55, 66, 77, 3],
+    ],
 ];
+// =============== Array Members =================
+const defenders = ["Clarenza", "Dina"];
+// Type: string
+const defender = defenders[0];
+const soldiersOrDates = ["Deborah Sampson", new Date(1782, 6, 3)];
+// Type: Date | string
+const soldierOrDate = soldiersOrDates[0];
+function withElements(elements) {
+    console.log(elements[9001].length); // No type error
+}
+withElements(["It's", "over"]);
+// ====================== Spreads and Rests ==================
+/*
+    Remember ... rest parameters for functions Rest parameters and array spreading, both with the ... operator, are key
+ways to interact with arrays in JavaScript
+*/
+/*
+   ====================== Spreads ==================
+Arrays can be joined together using the ... spread operator. TypeScript
+understands the result array will contain values that can be from either of
+the input arrays.
+*/
+// Type: string[]
+const soldiers = ["Harriet Tubman", "Joan of Arc", "Khutulun"];
+// Type: number[]
+const soldierAges = [90, 19, 45];
+// Type: (string | number)[]
+const conjoined = [...soldiers, ...soldierAges];
+// ========================== Spreading Rest Parameters ==================
+function logWarriors(greeting, ...names) {
+    for (const name of names) {
+        console.log(`${greeting}, ${name}!`);
+    }
+}
+const warriorsS = ["Cathay Williams", "Lozen", "Nzinga"];
+logWarriors("Hello", ...warriorsS);
+const birthYears = [1844, 1840, 1583];
