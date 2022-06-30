@@ -14,3 +14,48 @@ confusing to readers, or worse, the result of an error that could cause
 problems in the program.
 
 */
+
+const warriors = ["Artemisia", "Boudica"];
+// Ok: "Zenobia" is a string
+warriors.push("Zenobia");
+
+// ============================ Array Types ============================
+let arrayOfNumbers: number[];
+arrayOfNumbers = [4, 8, 15, 16, 23, 42];
+/* 
+   ======================== NOTE =====================================
+Array types can also be written in a syntax like Array<number> called class generics. Most developers prefer the simpler number[].
+*/
+
+//============================ Array and Function Types ============================
+
+/* 
+    Array types are an example of a syntax container where function types may
+need parentheses to distinguish what’s in the function type or not.
+Parentheses may be used to indicate which part of an annotation is the
+function return or the surrounding array type.
+*/
+
+// Type is a function that returns an array of strings
+let createStrings: () => string[];
+
+// Type is an array of functions that each return a string
+let stringCreators: (() => string)[];
+
+// ======================== Union-Type Arrays ====================
+// Type is either a number or an array of strings
+let stringOrArrayOfNumbers: string | number[];
+// Type is an array of elements that are each either a number or a string
+let arrayOfStringOrNumbers: (string | number)[];
+
+// Type is (string | undefined)[]
+const namesMaybe = ["Aqualtune", "Blenda", undefined];
+
+// ================== Evolving Any Arrays ================
+
+// Type: any[]
+let values = [];
+// Type: string[]
+values.push("");
+// Type: (number | string)[]
+values[0] = 0;
