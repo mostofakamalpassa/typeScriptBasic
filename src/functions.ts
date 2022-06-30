@@ -199,3 +199,62 @@ function getSongAtss(index: number) {
     // assignable to parameter of type '(index: number) => string'.
     // Types of parameters 'song' and 'index' are incompatible.
     // Type 'number' is not assignable to type 'string'.
+
+
+/*     logSongs: (strong: string) => string is the provided type being assigned to the getSongAt: (index: number) => string recipient */
+
+/* 
+    2. The song parameter of logSong being assigned to the index parameter of getSongAt
+    3. song’s number type is not assignable to index’s string type
+*/
+
+/* 
+   ============================ TIP =========================
+TypeScript’s multiline errors can seem daunting at first. Reading through them line-by-line and
+understanding what each part is conveying goes a long way to comprehending the error.
+*/
+
+//========================= Function Type Parentheses =================
+
+// Type is a function that returns a union: string | undefined
+let returnsStringOrUndefined: () => string | undefined;
+// Type is either undefined or a function that returns a string
+let maybeReturnsString: (() => string) | undefined;
+
+// =========================== Parameter Type Inferences =============
+/* 
+    It would be cumbersome if we had to declare parameter types for every
+function we write, including inline functions used as parameters.
+Fortunately, TypeScript can infer the types of parameters in a function
+provided to a location with a declared type.
+This singer variable is known to be a function that takes in a parameter of
+type string, so the song parameter in the function later assigned to singer
+is known to be a string:
+*/
+
+let singer: (song: string) => string;
+singer = function (song) {
+// Type of song: string
+return `Singing: ${song.toUpperCase()}!`; // Ok
+};
+
+const songsS = ["Call Me", "Jolene", "The Chain"];
+// song: string
+// index: number
+songsS.forEach((song, index) => {
+console.log(`${song} is at index ${index}`);
+});
+
+//=========================== Function Type Aliases =======================
+/* 
+    They can be used for function types as well.
+This StringToNumber type aliases a function that takes in a string and
+returns a number, which means it can be used later to describe the types of variables:
+*/
+
+type StringToNumber = (input: string) => number;
+let stringToNumber: StringToNumber;
+stringToNumber = (input) => input.length; // Ok
+// stringToNumber = (input) => input.toUpperCase(); // GET ERROR
+
+// Error: Type 'string' is not assignable to type 'number'. Similarly,
