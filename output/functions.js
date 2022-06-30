@@ -259,3 +259,10 @@ createDate(7, 27, 1987); // Ok
 // createDate(4, 1); // get Error
 // Error: No overload expects 2 arguments, but overloads
 // do exist that expect either 1 or 3 arguments.
+// function formats(data: string): string; // Ok
+// function formats(data: string, needle: string, haystack: string): string; // Ok
+// function formats(getData: () => string): string; // getError
+// function formats(data: string, needle?: string, haystack?: string) {
+//   return needle && haystack ? data.replace(needle, haystack) : data;
+// }
+// This overload signature is not compatible with its implementation
