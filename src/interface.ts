@@ -295,3 +295,21 @@ function useGivesBoth(instance: GivesBothAndEither) {
   instance.giveNumber(); // Type: number
   instance.giveString(); // Type: string
 }
+
+//========================== Interface Merging =============
+
+/* 
+  One of the important features of interfaces is their ability to merge with each other. Interface merging means if two interfaces are declared in the same scope with the same name, they’ll join into one bigger interface under that name with all declared fields.
+*/
+
+interface Merged {
+  fromFirst: string;
+}
+interface Merged {
+  fromSecond: number;
+}
+// Equivalent to:
+// interface Merged {
+// fromFirst: string;
+// fromSecond: number;
+// }

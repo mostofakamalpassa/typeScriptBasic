@@ -101,3 +101,8 @@ function useGivesBoth(instance) {
     instance.giveNumber(); // Type: number
     instance.giveString(); // Type: string
 }
+// Equivalent to:
+// interface Merged {
+// fromFirst: string;
+// fromSecond: number;
+// }
