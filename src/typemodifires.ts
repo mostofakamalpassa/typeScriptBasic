@@ -116,3 +116,80 @@ interface Ratings {
 const ratings: Ratings = { audience: 66, critics: 84 };
 getRating(ratings, "audience"); // Ok
 getRating(ratings, "not valid"); // Ok, but shouldn't be
+
+// ====================== keyof ======================
+
+function getRatingd(ratings: Ratings, key: 'audience' | 'critic'): number {
+    return ratings[key]; // Ok
+    }
+    const ratingsd: Ratings = { audience: 66, critics: 84 };
+   // getCountLiteral(ratingsd, 'audience'); // Ok
+
+   function getCountKeyof(ratings: Ratings, key: keyof Ratings): number {
+    return ratings[key]; // Ok
+    }
+    const ratingsss: Ratings = { audience: 66, critics: 84 };
+    getCountKeyof(ratingsss, 'audience'); // Ok
+
+    // ==================== typeof ====================
+
+    const original = {
+        medium: "movie",
+        title: "Mean Girls",
+        };
+        let adaptation: typeof original;
+        if (Math.random() > 0.5) {
+        adaptation = { ...original, medium: "play" }; // Ok
+        } else {
+        //adaptation = { ...original, medium: 2 };
+    
+        // Error: Type 'number' is not assignable to type 'string'.
+        }
+
+
+// ============================ Type Assertions =========================
+
+const rawData = `["grace", "frankie"]`;
+// Type: any
+JSON.parse(rawData);
+// Type: string[]
+JSON.parse(rawData) as string[];
+// Type: [string, string]
+JSON.parse(rawData) as [string, string];
+// Type: ["grace", "frankie"]
+JSON.parse(rawData) as ["grace", "frankie"];
+
+const rawDatas = `["grace", "frankie"]`;
+// Type: any
+JSON.parse(rawDatas);
+// Type: string[]
+JSON.parse(rawData);
+// Type: [string, string]
+JSON.parse(rawDatas);
+// Type: ["grace", "frankie"]
+JSON.parse(rawDatas);
+
+
+// ======================== Assertions versus declarations =================
+
+interface Entertainer {
+    acts: string[];
+    name: string;
+    }
+   
+    // const declared: Entertainer = {
+    // name: "Moms Mabley",
+    // };
+
+    // Error: Property 'acts' is missing in type
+    // '{ one: number; }' but required in type 'Entertainer'.
+    const asserted = {
+    name: "Moms Mabley",
+    } as Entertainer; // Ok, but...
+    // Both of these statements would fail at runtime with:
+    // Runtime TypeError: Cannot read properties of undefined (reading
+    //'toPrecision')
+   // console.log(declared.acts.join(", "));
+    console.log(asserted.acts.join(", "));
+
+    let myValueDouble = "1337" as unknown as number; // Ok, but... eww.
