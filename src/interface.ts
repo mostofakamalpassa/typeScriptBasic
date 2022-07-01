@@ -151,3 +151,58 @@ publishDates.Beloved; // Type: Date, but runtime value of undefined!
 console.log(publishDates.Beloved.toString()); // Ok in the type system, but...
 // Runtime error: Cannot read property 'toString'
 // of undefined (reading publishDates.Beloved)
+
+interface HistoricalNovels {
+  Oroonoko: number;
+  [i: string]: number;
+}
+
+const novels: HistoricalNovels = {
+  Outlander: 1991,
+  Oroonoko: 1688,
+};
+const missingOroonoko: HistoricalNovels = {
+  Outlander: 1991,
+  Oroonoko: 444,
+};
+
+interface ChapterStarts {
+  preface: 0;
+  [i: string]: number;
+}
+const correctPreface: ChapterStarts = {
+  preface: 0,
+  night: 1,
+  shopping: 5,
+};
+const wrongPreface: ChapterStarts = {
+  preface: 0,
+  night: 1,
+  shopping: 5,
+};
+
+//=============== Numeric index signatures ===============
+/* 
+  Although JavaScript implicitly converts object property lookup keys to strings, it is sometimes desirable to only allow numbers as keys for an object. 
+TypeScript index signatures can use a number type instead of
+string but with the same catch as named properties that their types must be assignable to the catchall string index signature’
+*/
+
+interface MoreNarrowNumbers {
+  [i: number]: string;
+  [i: string]: string | undefined;
+}
+// Ok
+const mixesNumbersAndStrings: MoreNarrowNumbers = {
+  0: "",
+  key1: "",
+  key2: undefined,
+};
+/* interface MoreNarrowStrings {
+  [i: number]: string | undefined;
+  // Error: 'number' index type 'string | undefined'
+  // is not assignable to 'string' index type 'string'.
+  [i: string]: string;
+} */
+
+

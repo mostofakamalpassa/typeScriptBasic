@@ -58,5 +58,33 @@ publishDates.Frankenstein; // Type: Date
 console.log(publishDates.Frankenstein.toString()); // Ok
 publishDates.Beloved; // Type: Date, but runtime value of undefined!
 console.log(publishDates.Beloved.toString()); // Ok in the type system, but...
-// Runtime error: Cannot read property 'toString'
-// of undefined (reading publishDates.Beloved)
+const novels = {
+    Outlander: 1991,
+    Oroonoko: 1688,
+};
+const missingOroonoko = {
+    Outlander: 1991,
+    Oroonoko: 444,
+};
+const correctPreface = {
+    preface: 0,
+    night: 1,
+    shopping: 5,
+};
+const wrongPreface = {
+    preface: 0,
+    night: 1,
+    shopping: 5,
+};
+// Ok
+const mixesNumbersAndStrings = {
+    0: "",
+    key1: "",
+    key2: undefined,
+};
+/* interface MoreNarrowStrings {
+  [i: number]: string | undefined;
+  // Error: 'number' index type 'string | undefined'
+  // is not assignable to 'string' index type 'string'.
+  [i: string]: string;
+} */
