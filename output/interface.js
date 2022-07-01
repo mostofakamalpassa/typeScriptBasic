@@ -82,9 +82,13 @@ const mixesNumbersAndStrings = {
     key1: "",
     key2: undefined,
 };
-/* interface MoreNarrowStrings {
-  [i: number]: string | undefined;
-  // Error: 'number' index type 'string | undefined'
-  // is not assignable to 'string' index type 'string'.
-  [i: string]: string;
-} */
+let myNovel;
+myNovel = {
+    author: {
+        name: "mostofa kamal",
+    },
+    settings: {
+        place: "Gazipur",
+        year: 1990,
+    },
+};

@@ -205,4 +205,31 @@ const mixesNumbersAndStrings: MoreNarrowNumbers = {
   [i: string]: string;
 } */
 
+//======================= Nested Interfaces ========================
 
+/* 
+  Just like object types can be nested as properties of other object types, interface types can also have properties that are themselves interface types (or object types).
+*/
+
+interface Novel {
+  author: {
+    name: string;
+  };
+  settings: Setting;
+}
+
+interface Setting {
+  place: string;
+  year: number;
+}
+
+let myNovel: Novel;
+myNovel = {
+  author: {
+    name: "mostofa kamal",
+  },
+  settings: {
+    place: "Gazipur",
+    year: 1990,
+  },
+};
