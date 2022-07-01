@@ -233,3 +233,65 @@ myNovel = {
     year: 1990,
   },
 };
+
+/* 
+  myNovel = {
+author: {
+name: 'jamal tomal',
+},
+setting: {
+place: 'West Yorkshire',
+},
+// Error: Property 'year' is missing in type
+// '{ place: string; }' but required in type 'Setting'.
+};
+*/
+
+//=================== Interface Extensions ===================
+
+/* 
+  Sometimes you may end up with multiple interfaces that look similar to
+each other. One interface may contain all the same members of another
+interface, with a few extras added on.
+*/
+/* 
+  TypeScript allows an interface to extend another interface, which declares it as copying all the members of another. An interface may be marked as
+extending another interface by adding the extends keyword after its name (the “derived” interface), followed by the name of the interface to extend
+(the “base” interface). Doing so indicates to TypeScript that all objects adhering to the derived interface must also have all the members of the base interface.
+
+*/
+
+interface Writing {
+  title: string;
+}
+
+interface Novella extends Writing {
+  pages: number;
+}
+
+let myNovella: Novella = {
+  pages: 195,
+  title: "Ethan Frome",
+};
+
+//========================== Extending Multiple Interfaces =============
+
+/* 
+  Interfaces in TypeScript are allowed to be declared as extending multiple other interfaces. Any number of interface names separated by commas may be used after the extends keyword following the derived interface’s name. The derived interface will receive all members from all base interfaces.
+
+*/
+
+interface GivesNumber {
+  giveNumber(): number;
+}
+interface GivesString {
+  giveString(): string;
+}
+interface GivesBothAndEither extends GivesNumber, GivesString {
+  giveEither(): number | string;
+}
+function useGivesBoth(instance: GivesBothAndEither) {
+  instance.giveEither(); // Type: number | string
+  instance.giveNumber(); // Type: number
+  instance.giveString(); // Type: string
+}

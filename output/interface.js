@@ -92,3 +92,12 @@ myNovel = {
         year: 1990,
     },
 };
+let myNovella = {
+    pages: 195,
+    title: "Ethan Frome",
+};
+function useGivesBoth(instance) {
+    instance.giveEither(); // Type: number | string
+    instance.giveNumber(); // Type: number
+    instance.giveString(); // Type: string
+}
