@@ -96,15 +96,15 @@ function getLast(node) {
 }
 // Inferred Value type argument: Date
 let lastDate = getLast({
-    value: new Date("2022-06-02")
+    value: new Date("2022-06-02"),
 });
 // Inferred Value type argument: string
 let lastFruit = getLast({
-    next: { value: 'applie' },
-    value: 'orranges'
+    next: { value: "applie" },
+    value: "orranges",
 });
 let missingGeneric = {
-    contest: "hello kamal passa"
+    contest: "hello kamal passa",
 };
 // ========================================= Generic Classes =====================================
 class Secret {
@@ -150,10 +150,7 @@ class SpokenQuote extends Quotes {
 }
 new Quotes("The only real failure is the failure to try.").lines; // Type:string
 new Quotes([4, 8, 15, 16, 23, 42]).lines; // Type: number[]
-new SpokenQuote([
-    "Greed is so destructive.",
-    "It destroys everything",
-]).lines; // Type: string[]
+new SpokenQuote(["Greed is so destructive.", "It destroys everything"]).lines; // Type: string[]
 // new SpokenQuote([4, 8, 15, 16, 23, 42]);
 // Error: Argument of type 'number' is not
 // assignable to parameter of type 'string'.
@@ -173,7 +170,7 @@ class MoviePart {
     }
 }
 const part = new MoviePart("Admin", true);
-part.role; // type string 
+part.role; // type string
 //============================== Method Generics ==========================
 class CreatePairFactory {
     constructor(key) {
@@ -184,7 +181,7 @@ class CreatePairFactory {
     }
 }
 // Type: CreatePairFactory<string>
-const factory = new CreatePairFactory('role');
+const factory = new CreatePairFactory("role");
 factory.createPair(1010);
 // Type: { key: string, value: number }
 const numberPair = factory.createPair(10);
@@ -205,8 +202,29 @@ class BothLogger {
 const logger = new BothLogger();
 logger.instanceLog([3, 4, 5, 6, 7, 8, 9, 10]);
 // inferred OnStatic type argument:  string[]
-BothLogger.staticLog(['one', 'two', 'three', 'four', 'five', 'six', 'seven']);
+BothLogger.staticLog([
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+]);
 // Inferred OnStatic type argument: boolean[]
 BothLogger.staticLog([false, true]);
 // Explicit OnStatic type argument: string
 BothLogger.staticLog("You can't change the music of your soul.");
+function handleResult(result) {
+    if (result.succeeded) {
+        // Type of result: SuccessfulResult<string>
+        console.log(`We did it! ${result.data}`);
+    }
+    else {
+        // Type of result: FailureResult
+        console.error(`Awww... ${result.error}`);
+    }
+    // result.data ;
+    // Error: Property 'data' does not exist on type 'Result<string>'.
+    // Property 'data' does not exist on type 'FailureResult'.
+}
