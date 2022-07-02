@@ -55,44 +55,98 @@ logWrapper((input: string) => {
 
 //=============================== Explicit Generic Call Types ============================================
 
-function logWrappers<Inputs>(callback:(input:Inputs)=>void){
-    return(input:string) =>{
-
-      console.log(input)
-      callback(input);
-    }
+function logWrappers<Inputs>(callback: (input: Inputs) => void) {
+  return (input: string) => {
+    console.log(input);
+    callback(input);
+  };
 }
 
+logWrappers((input: string) => {
+  console.log("Hello kamal passa ");
+});
 
-logWrappers((input:string )=>{
-  console.log("Hello kamal passa ")
-})
-
-logWrappers<string>((input)=> {
-    console.log("login this strings ");
-})
+logWrappers<string>((input) => {
+  console.log("login this strings ");
+});
 
 //========================= Multiple Function Type Parameters ======================
 
-function makeTuple<First, Second>(first:First, second:Second){
-
-  return[first, second] as const;
-
+function makeTuple<First, Second>(first: First, second: Second) {
+  return [first, second] as const;
 }
 
-let tupples = makeTuple('kamal', true);
+let tupples = makeTuple("kamal", true);
 // Type of value: readonly [string, boolean]
 
-
-function makePair<Key, Value>(key:Key, value: Value){
-
-  return {key, value}
+function makePair<Key, Value>(key: Key, value: Value) {
+  return { key, value };
 }
 
 // // Ok: neither type argument provided
-makePair('name', "kamal passa");
+makePair("name", "kamal passa");
 // Ok: both type arguments provided
-makePair<string, number>('book',200);
+makePair<string, number>("book", 200);
 
 // user define type provides
 makePair<"abc", 22>("abc", 22);
+
+//============================== Generic Interfaces ====================================
+
+interface Box<T> {
+  inside: T;
+}
+
+let stringBox: Box<string> = {
+  inside: "Hello Bangladesh",
+};
+
+let numberBox: Box<number> = {
+  inside: 444,
+};
+
+/* let incorrectBox: Box<number> = {
+  inside: false,
+  // Error: Type 'boolean' is not assignable to type 'number'.
+}; */
+
+/* 
+  Fun fact: the built-in Array methods are defined in TypeScript as a generic
+interface! Array uses a type parameter T to represent the type of data stored
+within an array. Its pop and push methods look roughly like so
+*/
+
+interface Array<T> {
+  // ...
+  /**
+  * Removes the last element from an array and returns it.
+  * If the array is empty, undefined is returned and the array is not
+  modified.
+  */
+  pop(): T | undefined;
+  /**
+   * Appends new elements to the end of an array,
+   * and returns the new length of the array.
+   * @param items new elements to add to the array.
+   */
+  push(...items: T[]): number;
+  // ...
+}
+
+
+interface LinkedNode<Value> {
+  next?: LinkedNode<Value>;
+  value: Value
+
+}
+
+function getLast<Value>(node: LinkedNode<Value>) : Value{
+  return node.next ? getLast(node.next): node.value;
+}
+
+// Inferred Value type argument: Date
+
+let lastDate = getLast({
+  value: new Date("2022-06-02")
+});
+

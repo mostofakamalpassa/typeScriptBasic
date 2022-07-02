@@ -62,14 +62,27 @@ logWrappers((input) => {
 function makeTuple(first, second) {
     return [first, second];
 }
-let tupples = makeTuple('kamal', true);
+let tupples = makeTuple("kamal", true);
 // Type of value: readonly [string, boolean]
 function makePair(key, value) {
     return { key, value };
 }
 // // Ok: neither type argument provided
-makePair('name', "kamal passa");
+makePair("name", "kamal passa");
 // Ok: both type arguments provided
-makePair('book', 200);
+makePair("book", 200);
 // user define type provides
 makePair("abc", 22);
+let stringBox = {
+    inside: "Hello Bangladesh",
+};
+let numberBox = {
+    inside: 444,
+};
+function getLast(node) {
+    return node.next ? getLast(node.next) : node.value;
+}
+// Inferred Value type argument: Date
+let lastDate = getLast({
+    value: new Date("2022-06-02")
+});
