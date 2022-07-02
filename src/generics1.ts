@@ -41,16 +41,58 @@ declaration:
 const identity2 = <T>(input: T) => input;
 identity2(123); // Type: 123
 
-
-function logWrapper<Input>(callback:(input:Input)=> void){
-
-    return(input: Input)=>{
-        console.log("Input: ", input);
-        callback(input);
-    }
+function logWrapper<Input>(callback: (input: Input) => void) {
+  return (input: Input) => {
+    console.log("Input: ", input);
+    callback(input);
+  };
 }
 
 // Type: (input: string) => void
 logWrapper((input: string) => {
-    console.log(input.length);
-    });
+  console.log(input.length);
+});
+
+//=============================== Explicit Generic Call Types ============================================
+
+function logWrappers<Inputs>(callback:(input:Inputs)=>void){
+    return(input:string) =>{
+
+      console.log(input)
+      callback(input);
+    }
+}
+
+
+logWrappers((input:string )=>{
+  console.log("Hello kamal passa ")
+})
+
+logWrappers<string>((input)=> {
+    console.log("login this strings ");
+})
+
+//========================= Multiple Function Type Parameters ======================
+
+function makeTuple<First, Second>(first:First, second:Second){
+
+  return[first, second] as const;
+
+}
+
+let tupples = makeTuple('kamal', true);
+// Type of value: readonly [string, boolean]
+
+
+function makePair<Key, Value>(key:Key, value: Value){
+
+  return {key, value}
+}
+
+// // Ok: neither type argument provided
+makePair('name', "kamal passa");
+// Ok: both type arguments provided
+makePair<string, number>('book',200);
+
+// user define type provides
+makePair<"abc", 22>("abc", 22);

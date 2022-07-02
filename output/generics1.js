@@ -45,3 +45,31 @@ function logWrapper(callback) {
 logWrapper((input) => {
     console.log(input.length);
 });
+//=============================== Explicit Generic Call Types ============================================
+function logWrappers(callback) {
+    return (input) => {
+        console.log(input);
+        callback(input);
+    };
+}
+logWrappers((input) => {
+    console.log("Hello kamal passa ");
+});
+logWrappers((input) => {
+    console.log("login this strings ");
+});
+//========================= Multiple Function Type Parameters ======================
+function makeTuple(first, second) {
+    return [first, second];
+}
+let tupples = makeTuple('kamal', true);
+// Type of value: readonly [string, boolean]
+function makePair(key, value) {
+    return { key, value };
+}
+// // Ok: neither type argument provided
+makePair('name', "kamal passa");
+// Ok: both type arguments provided
+makePair('book', 200);
+// user define type provides
+makePair("abc", 22);
