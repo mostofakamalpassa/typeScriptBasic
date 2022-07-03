@@ -94,12 +94,39 @@ const roles = {
 const favorite = get(roles, "favorite"); // Type: string
 const others = get(roles, "others"); // Type: string[]
 
-
 function gets<T>(container: T, key: keyof T) {
-    return container[key];
-    }
-    const roless = {
-    favorite: "Fargo",
-    others: ["Almost Famous", "Burn After Reading", "Nomadland"],
-    };
-    const found = gets(roles, "favorite"); // Type: string | string[]
+  return container[key];
+}
+const roless = {
+  favorite: "Fargo",
+  others: ["Almost Famous", "Burn After Reading", "Nomadland"],
+};
+const found = gets(roles, "favorite"); // Type: string | string[]
+
+// =================== promise ===============
+
+class promiseLike<Value> {
+  constructor(
+    executor: (value: Value) => void,
+    reject: (reson: unknown) => void
+  ) {}
+}
+
+// Type: Promise<unknown>
+const resolvesUnknown = new Promise((resolve) => {
+  setTimeout(() => resolve("Done!"), 1000);
+});
+// Type: Promise<string>
+const resolvesString = new Promise<string>((resolve) => {
+  setTimeout(() => resolve("Done!"), 1000);
+});
+
+// Type: (text: string) => Promise<number>
+async function lengthAfterSecond(text: string) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return text.length;
+}
+// Type: (text: string) => Promise<number>
+async function lengthImmediately(text: string) {
+  return text.length;
+}
