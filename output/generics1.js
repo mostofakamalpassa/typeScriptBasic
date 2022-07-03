@@ -61,7 +61,7 @@ logWrapper((input) => {
 function logWrappers(callback) {
     return (input) => {
         console.log(input);
-        callback(input);
+        // callback(input);
     };
 }
 logWrappers((input) => {

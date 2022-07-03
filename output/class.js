@@ -68,11 +68,10 @@ class MissingInitializers {
 // ========================= Read-Only Properties =========================
 class Quote {
     constructor(text) {
-        this.text = ;
+        this.text = "hello";
     }
     emphasize() {
         // this.text += "!";
-        ~~~~;
         // Error: Cannot assign to 'text' because it is a read-only property.
     }
 }
@@ -96,8 +95,8 @@ class RandomQuote {
 //  quote.implicit; // Type: "Home is the nicest word there is."
 // ====================== Classes as Types ===================
 /*
-    Classes are relatively unique in the type system in that a class declaration creates both a runtime value—the class itself—as well as a type that can be used in type annotations.
-*/
+        Classes are relatively unique in the type system in that a class declaration creates both a runtime value—the class itself—as well as a type that can be used in type annotations.
+    */
 class Teacher {
     sayHello() {
         console.log("Take chances, make mistakes, get messy!");
@@ -122,7 +121,7 @@ withSchoolBus({
 });
 withSchoolBus({
     // getAbilities: () => 123, // Get error
-    getAbilities: () => ['123'],
+    getAbilities: () => ["123"],
     // Error: Type 'number' is not assignable to type 'string[]'.
 });
 class Student {
@@ -144,9 +143,9 @@ class Slackers {
     }
 }
 /*
-    ===================== NOTE ===================
+        ===================== NOTE ===================
 Interfaces meant to be implemented by classes are a typical reason to use the method syntax for declaring an interface member as a function—as used by the Learner interface.
-*/
+    */
 class Students {
     // Error: Member 'name' implicitly has an 'any' type.
     study(hours) {
@@ -171,7 +170,9 @@ class AsNumber {
     }
 }
 class NotAsNumber {
-    age() { return ""; }
+    age() {
+        return "";
+    }
 }
 //=========================== Extending a Class ==============================
 class Teachers {
@@ -239,7 +240,7 @@ class ContinuedGradesTally extends GradesTally {
 //========================== Overridden Methods =======================
 class GradeCounter {
     countGrades(grades, letter) {
-        return grades.filter(grade => grade === letter).length;
+        return grades.filter((grade) => grade === letter).length;
     }
 }
 class FailureCounter extends GradeCounter {

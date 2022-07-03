@@ -84,186 +84,187 @@ class MissingInitializers {
 // ========================= Read-Only Properties =========================
 
 class Quote {
-    readonly text: string;
-    constructor(text: string) {
-    this.text = ;
-    }
-    emphasize() {
-   // this.text += "!";
-    ~~~~
+  readonly text: string;
+  constructor(text: string) {
+    this.text = "hello";
+  }
+  emphasize() {
+    // this.text += "!";
     // Error: Cannot assign to 'text' because it is a read-only property.
-    }
-    }
-    const quote = new Quote(
-    "There is a brilliant child locked inside every student."
-    );
-   // Quote.text = "Ha!";
-    // Error: Cannot assign to 'text' because it is a read-only property.
+  }
+}
+const quote = new Quote(
+  "There is a brilliant child locked inside every student."
+);
+// Quote.text = "Ha!";
+// Error: Cannot assign to 'text' because it is a read-only property.
 
-    class RandomQuote {
-        readonly explicit: string = "Home is the nicest word there is.";
-        readonly implicit = "Home is the nicest word there is.";
-        constructor() {
-        if (Math.random () > 0.5) {
+class RandomQuote {
+  readonly explicit: string = "Home is the nicest word there is.";
+  readonly implicit: string = "Home is the nicest word there is.";
+  constructor() {
+    if (Math.random() > 0.5) {
       //  this.explicit = "We start learning the minute we're born." // Ok;
       //  this.implicit = "We start learning the minute we're born.";
-        // Error: Type '"We start learning the minute we're born."' is
-        // not assignable to type '"Home is the nicest word there is."'.
-        }
-        }
-        }
-      //  const quote = new RandomQuote();
-      //  quote.explicit; // Type: string
-      //  quote.implicit; // Type: "Home is the nicest word there is."
-    
-    // ====================== Classes as Types ===================
+      // Error: Type '"We start learning the minute we're born."' is
+      // not assignable to type '"Home is the nicest word there is."'.
+    }
+  }
+}
+//  const quote = new RandomQuote();
+//  quote.explicit; // Type: string
+//  quote.implicit; // Type: "Home is the nicest word there is."
 
-    /* 
+// ====================== Classes as Types ===================
+
+/* 
         Classes are relatively unique in the type system in that a class declaration creates both a runtime value—the class itself—as well as a type that can be used in type annotations.
     */
 
-        class Teacher {
-            sayHello() {
-            console.log("Take chances, make mistakes, get messy!");
-            }
-            }
-            let teacher: Teacher;
-            teacher = new Teacher(); // Ok
-          //  teacher = "Wahoo!"; // get Error
-            // Error: Type 'string' is not assignable to type 'Teacher'.
+class Teacher {
+  sayHello() {
+    console.log("Take chances, make mistakes, get messy!");
+  }
+}
+let teacher: Teacher;
+teacher = new Teacher(); // Ok
+//  teacher = "Wahoo!"; // get Error
+// Error: Type 'string' is not assignable to type 'Teacher'.
 
-            class SchoolBus {
-                getAbilities() {
-                return ["magic", "shapeshifting"];
-                }
-                }
-                function withSchoolBus(bus: SchoolBus) {
-                console.log(bus.getAbilities());
-                }
-                withSchoolBus(new SchoolBus()); // Ok
-                // Ok
-                withSchoolBus({
-                getAbilities: () => ["transmogrification"],
-                });
-                withSchoolBus({
-                // getAbilities: () => 123, // Get error
-                getAbilities: () => ['123'],
-               
-                // Error: Type 'number' is not assignable to type 'string[]'.
-                });
+class SchoolBus {
+  getAbilities() {
+    return ["magic", "shapeshifting"];
+  }
+}
+function withSchoolBus(bus: SchoolBus) {
+  console.log(bus.getAbilities());
+}
+withSchoolBus(new SchoolBus()); // Ok
+// Ok
+withSchoolBus({
+  getAbilities: () => ["transmogrification"],
+});
+withSchoolBus({
+  // getAbilities: () => 123, // Get error
+  getAbilities: () => ["123"],
+
+  // Error: Type 'number' is not assignable to type 'string[]'.
+});
 
 //======================= Classes and Interfaces ========================
 
 interface Learner {
-    name: string;
-    study(hours: number): void;
-    }
-    class Student implements Learner {
-    name: string;
-    constructor(name: string) {
+  name: string;
+  study(hours: number): void;
+}
+class Student implements Learner {
+  name: string;
+  constructor(name: string) {
     this.name = name;
+  }
+  study(hours: number) {
+    for (let i = 0; i < hours; i += 1) {
+      console.log("...studying...");
     }
-    study(hours: number) {
-    for (let i = 0; i < hours; i+= 1) {
-    console.log("...studying...");
-    }
-    }
-    }
+  }
+}
 
-    class Slackers implements Learner {
-        // Error: Class 'Slacker' incorrectly implements interface 'Learner'.
-        // Property 'study' is missing in type 'Slacker'
-        // but required in type 'Learner'.
-        name = "Rocky";
-     }
+class Slackers implements Learner {
+  // Error: Class 'Slacker' incorrectly implements interface 'Learner'.
+  // Property 'study' is missing in type 'Slacker'
+  // but required in type 'Learner'.
+  name = "Rocky";
+}
 
-    /* 
+/* 
         ===================== NOTE ===================
 Interfaces meant to be implemented by classes are a typical reason to use the method syntax for declaring an interface member as a function—as used by the Learner interface.
     */
 
 class Students implements Learner {
-    name;
-    // Error: Member 'name' implicitly has an 'any' type.
-    study(hours) {
+  name;
+  // Error: Member 'name' implicitly has an 'any' type.
+  study(hours) {
     // Error: Parameter 'hours' implicitly has an 'any' type.
-    }
+  }
 }
 
 //============================= Implementing Multiple Interfaces ================
 
 interface Graded {
-    grades: number[];
-    }
-    interface Reporter {
-    report: () => string;
-    }
-    class ReportCard implements Graded, Reporter {
-    grades: number[];
-    constructor(grades: number[]) {
+  grades: number[];
+}
+interface Reporter {
+  report: () => string;
+}
+class ReportCard implements Graded, Reporter {
+  grades: number[];
+  constructor(grades: number[]) {
     this.grades = grades;
-    }
-    report() {
+  }
+  report() {
     return this.grades.join(", ");
-    }
-    }
-    interface AgeIsANumber {
-        age: number;
-        }
-        interface AgeIsNotANumber {
-        age: () => string;
-        }
+  }
+}
+interface AgeIsANumber {
+  age: number;
+}
+interface AgeIsNotANumber {
+  age: () => string;
+}
 
-        class AsNumber implements AgeIsANumber, AgeIsNotANumber {
-            age = 0;
-            // ~~~
-            // Error: Property 'age' in type 'AsNumber' is not assignable
-            // to the same property in base type 'AgeIsNotANumber'.
-            // Type 'number' is not assignable to type '() => string'.
-            }
-            class NotAsNumber implements AgeIsANumber, AgeIsNotANumber {
-            age() { return ""; }
-            // ~~~
-            // Error: Property 'age' in type 'NotAsNumber' is not assignable
-            // to the same property in base type 'AgeIsANumber'.
-            // Type '() => string' is not assignable to type 'number'.
-            }
+class AsNumber implements AgeIsANumber, AgeIsNotANumber {
+  age = 0;
+  // ~~~
+  // Error: Property 'age' in type 'AsNumber' is not assignable
+  // to the same property in base type 'AgeIsNotANumber'.
+  // Type 'number' is not assignable to type '() => string'.
+}
+class NotAsNumber implements AgeIsANumber, AgeIsNotANumber {
+  age() {
+    return "";
+  }
+  // ~~~
+  // Error: Property 'age' in type 'NotAsNumber' is not assignable
+  // to the same property in base type 'AgeIsANumber'.
+  // Type '() => string' is not assignable to type 'number'.
+}
 
 //=========================== Extending a Class ==============================
 
 class Teachers {
-    teach() {
+  teach() {
     console.log("The surest test of discipline is its absence.");
-    }
-    }
-    class StudentTeacher extends Teachers {
-    learn() {
+  }
+}
+class StudentTeacher extends Teachers {
+  learn() {
     console.log("I cannot afford the luxury of a closed mind.");
-    }
-    }
-    const teachers = new StudentTeacher();
-    teachers.teach(); // Ok (defined on base)
-    teachers.learn(); // Ok (defined on subclass)
-  //  teachers.other(); // Error
-   
-    // Error: Property 'other' does not exist on type 'StudentTeacher'.
+  }
+}
+const teachers = new StudentTeacher();
+teachers.teach(); // Ok (defined on base)
+teachers.learn(); // Ok (defined on subclass)
+//  teachers.other(); // Error
 
-    class Lesson {
-        subject: string;
-        constructor(subject: string) {
-        this.subject = subject;
-        }
-    }
+// Error: Property 'other' does not exist on type 'StudentTeacher'.
 
-    class OnlineLesson extends Lesson {
-        url: string;
-        constructor(subject: string, url: string) {
-        super(subject);
-        this.url = url;
-        }
-        }
+class Lesson {
+  subject: string;
+  constructor(subject: string) {
+    this.subject = subject;
+  }
+}
 
-        let lesson: Lesson;
+class OnlineLesson extends Lesson {
+  url: string;
+  constructor(subject: string, url: string) {
+    super(subject);
+    this.url = url;
+  }
+}
+
+let lesson: Lesson;
 lesson = new Lesson("coding"); // Ok
 lesson = new OnlineLesson("coding", "oreilly.com"); // Ok
 let online: OnlineLesson;
@@ -272,63 +273,63 @@ online = new OnlineLesson("coding", "oreilly.com"); // Ok
 //============================= Overridden Constructors ===================
 
 class GradeAnnouncer {
-    message: string;
-    constructor(grade: number) {
+  message: string;
+  constructor(grade: number) {
     this.message = grade >= 65 ? "Maybe next time..." : "You pass!";
-    }
-    }
-    class PassingAnnouncer extends GradeAnnouncer {
-            constructor() {
-            super(100);
-            }
-    }
+  }
+}
+class PassingAnnouncer extends GradeAnnouncer {
+  constructor() {
+    super(100);
+  }
+}
 
-    class FailingAnnouncer extends GradeAnnouncer {
-        //constructor() { }
-        // Error: Constructors for subclasses must contain a 'super' call.
-    }
+class FailingAnnouncer extends GradeAnnouncer {
+  //constructor() { }
+  // Error: Constructors for subclasses must contain a 'super' call.
+}
 
-    class GradesTally {
-        grades: number[] = [];
-        addGrades(...grades: number[]) {
-            this.grades.push(...grades);
-            return this.grades.length;
-        }
-    }
+class GradesTally {
+  grades: number[] = [];
+  addGrades(...grades: number[]) {
+    this.grades.push(...grades);
+    return this.grades.length;
+  }
+}
 
-    class ContinuedGradesTally extends GradesTally {
-        constructor(previousGrades: number[]) {
-       // this.grades = [...previousGrades];
-        // Error: 'super' must be called before accessing
-        // 'this' in the constructor of a subclass.
-        super();
-        console.log("Starting with length", this.grades.length); // Ok
-        }
-    }
+class ContinuedGradesTally extends GradesTally {
+  constructor(previousGrades: number[]) {
+    // this.grades = [...previousGrades];
+    // Error: 'super' must be called before accessing
+    // 'this' in the constructor of a subclass.
+    super();
+    console.log("Starting with length", this.grades.length); // Ok
+  }
+}
 //========================== Overridden Methods =======================
 
 class GradeCounter {
-    countGrades(grades: string[], letter: string) {
-    return grades.filter(grade => grade === letter).length;
-    }
-    }
-    class FailureCounter extends GradeCounter {
-    countGrades(grades: string[]) {
+  countGrades(grades: string[], letter: string) {
+    return grades.filter((grade) => grade === letter).length;
+  }
+}
+class FailureCounter extends GradeCounter {
+  countGrades(grades: string[]) {
     return super.countGrades(grades, "F");
-    }
-    }
-    class AnyFailureChecker extends GradeCounter {
-   // countGrades(grades: string[]) {
-    // Property 'countGrades' in type 'AnyFailureChecker' is not
-    // assignable to the same property in base type 'GradeCounter'.
-    // Type '(grades: string[]) => boolean' is not assignable
-    // to type '(grades: string[], letter: string) => number'.
-    // Type 'boolean' is not assignable to type 'number'.
-   // return super.countGrades(grades, "F") !== 0;
-    //}
-    }
+  }
+}
+class AnyFailureChecker extends GradeCounter {
+  // countGrades(grades: string[]) {
+  // Property 'countGrades' in type 'AnyFailureChecker' is not
+  // assignable to the same property in base type 'GradeCounter'.
+  // Type '(grades: string[]) => boolean' is not assignable
+  // to type '(grades: string[], letter: string) => number'.
+  // Type 'boolean' is not assignable to type 'number'.
+  // return super.countGrades(grades, "F") !== 0;
+  //}
+}
 
-    const counter: GradeCounter = new AnyFailureChecker();
+const counter: GradeCounter = new AnyFailureChecker();
 // Expected type: number
 // Actual type: boolean
 //const count = counter.countGrades(["A", "C", "F"]);
@@ -336,44 +337,44 @@ class GradeCounter {
 //============================ Overridden Properties ====================
 
 class Assignment {
-    grade?: number;
+  grade?: number;
 }
 class GradedAssignment extends Assignment {
-    grade: number;
-    constructor(grade: number) {
+  grade: number;
+  constructor(grade: number) {
     super();
     this.grade = grade;
-    }
+  }
 }
 
 class NumericGrade {
-    value = 0;
-    }
-    class VagueGrade extends NumericGrade {
-    //value = Math.random() > 0.5 ? 1 : "...";
-    // Error: Property 'value' in type 'NumberOrString' is not
-    // assignable to the same property in base type 'JustNumber'.
-    // Type 'string | number' is not assignable to type 'number'.
-    // Type 'string' is not assignable to type 'number'.
-    }
-   // const instancess: NumericGrade = new VagueGrade();
-    // Expected type: number
-    // Actual type: number | string
-   //instancess.value;
+  value = 0;
+}
+class VagueGrade extends NumericGrade {
+  //value = Math.random() > 0.5 ? 1 : "...";
+  // Error: Property 'value' in type 'NumberOrString' is not
+  // assignable to the same property in base type 'JustNumber'.
+  // Type 'string | number' is not assignable to type 'number'.
+  // Type 'string' is not assignable to type 'number'.
+}
+// const instancess: NumericGrade = new VagueGrade();
+// Expected type: number
+// Actual type: number | string
+//instancess.value;
 
-   //====================== Abstract Classes =================
+//====================== Abstract Classes =================
 abstract class School {
-    readonly name: string;
-    constructor(name: string) {
+  readonly name: string;
+  constructor(name: string) {
     this.name = name;
-    }
+  }
 
-abstract getStudentTypes(): string[];
-    }
+  abstract getStudentTypes(): string[];
+}
 class Preschool extends School {
-    getStudentTypes() {
-     return ["preschooler"];
-    }
+  getStudentTypes() {
+    return ["preschooler"];
+  }
 }
 
 //====================== Member Visibility =======================
@@ -393,15 +394,15 @@ class Preschool extends School {
 */
 
 class Base {
-    isPublicImplicit = 0;
-    public isPublicExplicit = 1;
-    protected isProtected = 2;
-    private isPrivate = 3;
-    #truePrivate = 4;
+  isPublicImplicit = 0;
+  public isPublicExplicit = 1;
+  protected isProtected = 2;
+  private isPrivate = 3;
+  #truePrivate = 4;
 }
 
 class Subclass extends Base {
-    examples() {
+  examples() {
     this.isPublicImplicit; // Ok
     this.isPublicExplicit; // Ok
     this.isProtected; // Ok
@@ -411,37 +412,35 @@ class Subclass extends Base {
     //this.#truePrivate;
     // Property '#truePrivate' is not accessible outside
     // class 'Base' because it has a private identifier.
-    }
+  }
 }
 new Subclass().isPublicImplicit; // Ok
 new Subclass().isPublicExplicit; // Ok
 
 class TwoKeywords {
-    private readonly name: string;
-    constructor() {
+  private readonly name: string;
+  constructor() {
     this.name = "Anne Sullivan"; // Ok
-    }
-    log() {
+  }
+  log() {
     console.log(this.name); // Ok
-    }
+  }
 }
-    const two = new TwoKeywords();
-
+const two = new TwoKeywords();
 
 //====================== Static Field Modifiers =================
 
 class Question {
-    protected static readonly answer: "bash";
-    protected static readonly prompt =
+  protected static readonly answer: "bash";
+  protected static readonly prompt =
     "What's an ogre's favorite programming language?";
-    guess(getAnswer: (prompt: string) => string) {
+  guess(getAnswer: (prompt: string) => string) {
     const answer = getAnswer(Question.prompt);
     // Ok
     if (answer === Question.answer) {
-    console.log("You got it!");
+      console.log("You got it!");
     } else {
-    console.log("Try again...")
+      console.log("Try again...");
     }
-    }
+  }
 }
-

@@ -6,7 +6,7 @@ as type arguments, for each instance of the construct but will remain consistent
 Type parameters typically have single-letter names like T and U or PascalCase names like Key and Value. In all of the constructs covered in this chapter, generics may be declared using < and > brackets, like someFunction<T> or SomeInterface<T>.
 */
 
-function identity(input) {
+function identity(input:any) {
   return input;
 }
 identity("abc");
@@ -58,7 +58,7 @@ logWrapper((input: string) => {
 function logWrappers<Inputs>(callback: (input: Inputs) => void) {
   return (input: string) => {
     console.log(input);
-    callback(input);
+    // callback(input);
   };
 }
 

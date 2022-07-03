@@ -84,7 +84,8 @@ function workWithText(text) {
     }
 }
 function getRating(ratings, key) {
-    return ratings[key];
+    // return ratings[key];
+    return 0;
     // ~~~~~~~~~~~
     // Error: Element implicitly has an 'any' type because expression
     // of type 'string' can't be used to index type 'Ratings'.

@@ -100,7 +100,8 @@ function workWithText(text: string | undefined) {
 
 
 function getRating(ratings: Ratings, key: string): number {
-    return ratings[key];
+   // return ratings[key];
+   return 0;
     // ~~~~~~~~~~~
     // Error: Element implicitly has an 'any' type because expression
     // of type 'string' can't be used to index type 'Ratings'.
@@ -119,7 +120,7 @@ getRating(ratings, "not valid"); // Ok, but shouldn't be
 
 // ====================== keyof ======================
 
-function getRatingd(ratings: Ratings, key: 'audience' | 'critic'): number {
+function getRatingd(ratings: Ratings, key: 'audience' | 'critics'): number {
     return ratings[key]; // Ok
     }
     const ratingsd: Ratings = { audience: 66, critics: 84 };
